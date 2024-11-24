@@ -13,6 +13,7 @@ void print_frac(const Fraction& Fract)
     cout << Fract.to_string() << "\n"; // вывод на экран
 }
 
+// главная часть программы
 int main()
 {
     setlocale(LC_ALL, "rus"); // задание локализации для русского языка
