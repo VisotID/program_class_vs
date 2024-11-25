@@ -240,17 +240,24 @@ int Fraction::Load_Frac(std::string& filename)
 
 /// Функция проверки работы программы
 void test() {
-    Fraction test1(2, 5); // задаём первую дробь
-    Fraction test2(3, 6); // задаём вторую дробь
-    Fraction rezsum = test1 + test2; // сумма двух дробей
-    Fraction rezmin = test1 - test2; // разность двух дробей
-    Fraction rezcomp = test1 * test2; // произведение двух дробей
-    Fraction rezdivis = test1 / test2; // деление двух дробей
-    assert(abs(test1.get_num() - 2) < 0.0001); // проверка конструктора и геттера для числителя
-    assert(abs(test1.get_den() - 5) < 0.0001); // проверка конструктора и геттера для знаменателя
-    assert(abs(rezsum.dec() - 0.9) < 0.0001); // проверка метода сложения дробей
-    assert(abs(rezmin.dec() - (-0.1)) < 0.0001); // проверка метода разности дробей
-    assert(abs(rezcomp.dec() - 0.2) < 0.0001); // проверка метода перемножения дробей
-    assert(abs(rezdivis.dec() - 0.8) < 0.0001); // проверка метода деления дробей
-    assert(test1.compars(test2) == -1); // проверка метода сравнения дробей
+    try
+    {
+        Fraction test1(2, 5); // задаём первую дробь
+        Fraction test2(3, 6); // задаём вторую дробь
+        Fraction test3(1, 1); // задаём первую дробь
+        Fraction test4(0, 2); // задаём вторую дробь
+        Fraction rezsum = test1 + test2; // сумма двух дробей
+        Fraction rezmin = test1 - test2; // разность двух дробей
+        Fraction rezcomp = test1 * test2; // произведение двух дробей
+        Fraction rezdivis = test1 / test2; // деление двух дробей
+        Fraction rezdivis = test3 / test4; // деление двух дробей
+        assert(abs(test1.get_num() - 2) < 0.0001); // проверка конструктора и геттера для числителя
+        assert(abs(test1.get_den() - 5) < 0.0001); // проверка конструктора и геттера для знаменателя
+        assert(abs(rezsum.dec() - 0.9) < 0.0001); // проверка метода сложения дробей
+        assert(abs(rezmin.dec() - (-0.1)) < 0.0001); // проверка метода разности дробей
+        assert(abs(rezcomp.dec() - 0.2) < 0.0001); // проверка метода перемножения дробей
+        assert(abs(rezdivis.dec() - 0.8) < 0.0001); // проверка метода деления дробей
+        assert(test1.compars(test2) == -1); // проверка метода сравнения дробей
+    }
+    catch 
 }
