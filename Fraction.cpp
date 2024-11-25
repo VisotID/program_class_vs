@@ -5,6 +5,7 @@
 #include <cmath> // библиотека С++(для функции abs)
 #include <fstream> // библиотека С++ для работы с файлами
 
+
 // Конструктор по умолчанию
 Fraction::Fraction()
 {
@@ -60,7 +61,7 @@ std::string Fraction::to_string() const
 }
 
 /// Метод сложения двух дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction Fraction::summ(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez; // переменная класса дробь для записи результата
@@ -83,7 +84,7 @@ Fraction Fraction::summ(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Метод перемножения двух дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction Fraction::comp(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez; // переменная класса дробь для записи результата
@@ -95,7 +96,7 @@ Fraction Fraction::comp(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Метод разности двух дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction Fraction::minus(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez; // переменная класса дробь для записи результата
@@ -118,20 +119,26 @@ Fraction Fraction::minus(const Fraction& first_frac, const Fraction& second_frac
 }
 
 /// Метод деления двух дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
+/// 1 - ошибка, если знаменатель равен 0
 Fraction Fraction::divis(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez; // переменная класса дробь для записи результата
     int new_num = first_frac.get_num() * second_frac.get_den(); // умножаем числитель первой дроби на знаменатель второй дроби
     int new_den = first_frac.get_den() * second_frac.get_num(); // умножаем знаменатель первой дроби на числитель второй дроби
-    rez.set_num(new_num); // записываем новый числитель вычисленной дроби
-    rez.set_den(new_den); // записываем новый знаменатель вычисленной дроби
-    return rez; // возвращаем результат
+    if (new_den != 0)
+    {
+        rez.set_num(new_num); // записываем новый числитель вычисленной дроби
+        rez.set_den(new_den); // записываем новый знаменатель вычисленной дроби
+        return rez; // возвращаем результат
+    }
+    else throw 1;
 }
 
 /// Метод сравнения двух дробей
 /// const Fraction& second_frac - дробь, const чтобы не изменялась
-std::string Fraction::compars(const Fraction& second_frac) const
+/// 0 - дроби равны, 1 - первая дробь больше второй, -1 - вторая дробь больше первой
+int Fraction::compars(const Fraction& second_frac) const
 {
     double firstnum = get_num(); // присваиваем переменной числитель первой дроби
     double firstden = get_den(); // присваиваем переменной знаменатель первой дроби
@@ -139,15 +146,15 @@ std::string Fraction::compars(const Fraction& second_frac) const
     double secden = second_frac.get_den(); // присваиваем переменной знаменатель второй дроби
     if ((firstnum/firstden) > (secnum/secden)) // преобразование обыкновенных дробей в десятичные дроби, если первая дробь больше второй
     {
-        return "первая дробь больше второй"; // ответ
+        return 1; // ответ
     }
     else if ((firstnum / firstden) < (secnum / secden)) // преобразование обыкновенных дробей в десятичные дроби, если первая дробь меньше второй
     {
-        return "вторая дробь больше первой"; // ответ
+        return -1; // ответ
     }
     else if ((firstnum / firstden) == (secnum / secden)) // преобразование обыкновенных дробей в десятичные дроби, если дроби равны
     {
-        return "дроби равны"; // ответ
+        return 0; // ответ
     }
 }
 
@@ -161,15 +168,16 @@ float Fraction::dec() const
 
 /// Перегрузки операторов вне класса
 /// Перегрузка оператора сложения для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction operator +(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.summ(first_frac, second_frac); // вызов метода сложения двух дробей
     return rez; // возвращение результата
 }
 
+
 /// Перегрузка оператора разности для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
 Fraction operator -(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.minus(first_frac, second_frac); // вызов метода разности двух дробей
@@ -177,7 +185,7 @@ Fraction operator -(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Перегрузка оператора умножения для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
 Fraction operator *(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.comp(first_frac, second_frac); // вызов метода перемножения двух дробей
@@ -185,7 +193,7 @@ Fraction operator *(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Перегрузка оператора деления для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
 Fraction operator /(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.divis(first_frac, second_frac); // вызов метода деления двух дробей
@@ -193,30 +201,31 @@ Fraction operator /(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Метод записи в файл
-/// std::string& filename - имя файла
-void Fraction::Save_Frac(std::string& filename) const
+/// std::string& filename - имя файла, при ошибке открытия файла кидаем исключение
+int Fraction::Save_Frac(std::string& filename) const
 {
-    std::ofstream savef(filename); // открытие файла
+    std::ofstream savef(filename); // открытие файла, ofstream для записи в файл
     if (!savef.is_open()) // если не открылся
     {
-        throw "Не удается открыть файл для записи"; // бросаем сообщение об ошибке
+        return 1; // сообщение об ошибке
     }
     else // иначе
     {
         savef << get_num() << "\n"; // записываем в файл числитель
         savef << get_den() << "\n"; // записываем в файл знаменатель
         savef.close(); // закрываем файл
+        return 0;
     }
 }
 
 /// Метод извлечения из файла
-/// std::string& filename - имя файла
-Fraction Fraction::Load_Frac(std::string& filename)
+/// std::string& filename - имя файла, при ошибке открытия файла кидаем исключение
+int Fraction::Load_Frac(std::string& filename)
 {
-    std::ifstream loadf(filename); // открываем файл
+    std::ifstream loadf(filename); // открываем файл, ifstream для чтения из файла
     if (!loadf.is_open()) // если не открылся
     {
-        throw "Не удается открыть файл для чтения"; // бросаем сообщение об ошибке
+        return 1; // сообщение об ошибке
     }
     else // иначе
     {
@@ -225,9 +234,11 @@ Fraction Fraction::Load_Frac(std::string& filename)
         set_num(n); // записываем числитель
         set_den(d); // записываем знаменатель
         loadf.close(); // закрываем файл
+        return 0;
     }
 }
 
+/// Функция проверки работы программы
 void test() {
     Fraction test1(2, 5); // задаём первую дробь
     Fraction test2(3, 6); // задаём вторую дробь
@@ -241,5 +252,5 @@ void test() {
     assert(abs(rezmin.dec() - (-0.1)) < 0.0001); // проверка метода разности дробей
     assert(abs(rezcomp.dec() - 0.2) < 0.0001); // проверка метода перемножения дробей
     assert(abs(rezdivis.dec() - 0.8) < 0.0001); // проверка метода деления дробей
-    assert(test1.compars(test2) == "вторая дробь больше первой"); // проверка метода сравнения дробей
+    assert(test1.compars(test2) == -1); // проверка метода сравнения дробей
 }

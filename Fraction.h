@@ -54,18 +54,18 @@ public:
 
     /// Метод сравнения двух дробей
     /// const Fraction& second_frac - дробь, const чтобы не изменялась
-    std::string compars(const Fraction& second_frac) const;
+    int compars(const Fraction& second_frac) const;
 
     /// Метод перевода в десятичную дробь
     float dec() const;
 
     /// Метод записи в файл
     /// std::string& filename - имя файла
-    void Save_Frac(std::string& filename) const;
+    int Save_Frac(std::string& filename) const;
 
     /// Метод извлечения из файла
     /// std::string& filename - имя файла
-    Fraction Load_Frac(std::string& filename);
+    int Load_Frac(std::string& filename);
 };
 
 /// Перегрузка оператора сложения для дробей
@@ -83,3 +83,6 @@ Fraction operator *(const Fraction& first_frac, const Fraction& second_frac);
 /// Перегрузка оператора деления для дробей
 /// const Fraction& first_frac - первая дробь, const чтобы не изменялась, const Fraction& second_frac - вторая дробь, const чтобы не изменялась
 Fraction operator /(const Fraction& first_frac, const Fraction& second_frac);
+
+/// Функция проверки работы программы
+void test();
