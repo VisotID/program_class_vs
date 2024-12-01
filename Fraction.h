@@ -86,3 +86,6 @@ Fraction operator /(const Fraction& first_frac, const Fraction& second_frac);
 
 /// Функция проверки работы программы
 void test();
+
+/// Функция проверки деления
+int testdevis();

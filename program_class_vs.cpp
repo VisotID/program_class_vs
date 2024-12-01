@@ -16,6 +16,7 @@ void print_frac(const Fraction& Fract)
 // главная часть программы
 int main()
 {
+    test(); // функция проверки работы программы
     setlocale(LC_ALL, "rus"); // задание локализации для русского языка
     // вывод на экран дроби, заданной по умолчанию
     Fraction First; // переменная типа Fraction
