@@ -54,6 +54,7 @@ int Fraction::get_den() const
 }
 
 /// Метод для перевода в строку
+/// const для того, чтобы не изменились поля класса
 std::string Fraction::to_string() const
 {
     std::string s = std::to_string(num) + "/" + std::to_string(den); // перевод в строку числителя/перевод в строку знаменателя
@@ -136,7 +137,7 @@ Fraction Fraction::divis(const Fraction& first_frac, const Fraction& second_frac
 }
 
 /// Метод сравнения двух дробей
-/// const Fraction& second_frac - дробь, const чтобы не изменялась
+/// const Fraction& second_frac - дробь, const чтобы не изменялась дробь, передаём по ссылке, потому что большой размер данных 
 /// 0 - дроби равны, 1 - первая дробь больше второй, -1 - вторая дробь больше первой
 int Fraction::compars(const Fraction& second_frac) const
 {
@@ -159,6 +160,7 @@ int Fraction::compars(const Fraction& second_frac) const
 }
 
 /// Метод перевода в десятичную дробь
+/// const для того, чтобы не изменились поля класса
 float Fraction::dec() const
 {
     float rez; // переменная для записи результата
@@ -175,9 +177,8 @@ Fraction operator +(const Fraction& first_frac, const Fraction& second_frac)
     return rez; // возвращение результата
 }
 
-
 /// Перегрузка оператора разности для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction operator -(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.minus(first_frac, second_frac); // вызов метода разности двух дробей
@@ -185,7 +186,7 @@ Fraction operator -(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Перегрузка оператора умножения для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction operator *(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.comp(first_frac, second_frac); // вызов метода перемножения двух дробей
@@ -193,7 +194,7 @@ Fraction operator *(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Перегрузка оператора деления для дробей
-/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер
+/// const Fraction& first_frac - первая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных, const Fraction& second_frac - вторая дробь, const чтобы не изменялось поле класса, передаём по ссылке, потому что большой размер данных
 Fraction operator /(const Fraction& first_frac, const Fraction& second_frac)
 {
     Fraction rez = rez.divis(first_frac, second_frac); // вызов метода деления двух дробей
@@ -201,33 +202,33 @@ Fraction operator /(const Fraction& first_frac, const Fraction& second_frac)
 }
 
 /// Метод записи в файл
-/// std::string& filename - имя файла
-/// 1 - ошибка открытия файла
+/// std::string& filename - имя файла, передаём по ссылке, потому что большой размер данных
+/// возвращаем 1 - ошибка открытия файла
 int Fraction::Save_Frac(std::string& filename) const
 {
     std::ofstream savef(filename); // открытие файла, ofstream для записи в файл
-    if (!savef.is_open()) // если не открылся
+    if (!savef.is_open()) // если файл не открылся
     {
-        return 1; // сообщение об ошибке
+        return 1; // возвращаем 1
     }
     else // иначе
     {
         savef << get_num() << "\n"; // записываем в файл числитель
         savef << get_den() << "\n"; // записываем в файл знаменатель
         savef.close(); // закрываем файл
-        return 0;
+        return 0; // возвращаем 0
     }
 }
 
 /// Метод извлечения из файла
-/// std::string& filename - имя файла, при ошибке открытия файла кидаем исключение
-/// 1 - файл не был найден
+/// std::string& filename - имя файла, передаём по ссылке, потому что большой размер данных
+/// возвращаем 1 - файл не был найден
 int Fraction::Load_Frac(std::string& filename)
 {
     std::ifstream loadf(filename); // открываем файл, ifstream для чтения из файла
-    if (!loadf.is_open()) // если не открылся
+    if (!loadf.is_open()) // если файл не открылся
     {
-        return 1; // аварийное завершение работы программы
+        return 1; // возвращаем 1
     }
     else // иначе
     {
@@ -236,23 +237,22 @@ int Fraction::Load_Frac(std::string& filename)
         set_num(n); // записываем числитель
         set_den(d); // записываем знаменатель
         loadf.close(); // закрываем файл
-        return 0; // завершение
+        return 0; // возвращаем 0
     }
 }
 
 /// Функция проверки деления
-int testdevis()
+/// если бросаем исключение,переходим в catch, если нет идём дальше по коду и аварийно завершаем программу
+void testdevis()
 {
     Fraction test3(1, 1); // задаём первую дробь
     Fraction test4(0, 2); // задаём вторую дробь
     try
     {
         Fraction testdevis = test3 / test4; // делим
+        assert(0); // аварийно завершаем программу
     }
-    catch (int)
-    {
-        return 1; // возвращаем 1
-    }
+    catch (int) {}
 }
 
 /// Функция проверки работы программы
@@ -277,6 +277,5 @@ void test() {
         assert(test1.Load_Frac(namet) == 0); // проверка метода извлечения из файла
         assert(test1.Load_Frac(namef) == 1); // проверка метода извлечения из файла
         assert(test2.Save_Frac(namet) == 0); // проверка метода сохранения в файл
-        assert(testdevis() == 1); // проверка деления
         
     }
